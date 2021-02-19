@@ -1,0 +1,56 @@
+.dialogBlock {
+    display: block;
+    width: 100%;
+    border-top: 1px solid #999;
+}
+
+.dialogBlock:hover {
+    background-color: #FFFCE1;
+}
+
+.blockItem {
+    height: 100px;
+    display: inline-flex;
+}
+
+.photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px 40px;
+    background-color: red;
+    margin-right: 8px;
+    margin-left: 12px;
+    align-self: center;
+}
+
+.info {
+    font-family: 'Segoe print';
+    align-self: center;
+}
+
+.message, .name {
+    font-size: 19px;
+    line-height: 24px;
+}
+
+.message {
+    color: #999;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.messageBlock {
+    margin-top: 8px;
+}
+
+.withYou {
+    display: inline-flex;
+}
+
+.you {
+    font-size: 19px;
+    line-height: 24px;
+    color: red;
+    margin-right: 8px;
+}
