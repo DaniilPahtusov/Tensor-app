@@ -3,12 +3,13 @@ from flask import Flask
 from flask import Flask, Blueprint
 from flask_cors import CORS, cross_origin
 from flask_login import LoginManager
-from routes import api
 from flask_pymongo import PyMongo
 from lib.database.db import initialize_db
 from lib.database.db import mongo
 import uuid
 #from lib.login_manager.login_manager import initialize_login_manager
+login_manager = LoginManager()
+from routes import api
 
 def create_app():
     app = Flask(__name__)
@@ -20,5 +21,5 @@ def create_app():
     app.register_blueprint(api, url_prefix='/')
 
     initialize_db(app)
-    login_manager = LoginManager(app).init_app(app)
+    login_manager.init_app(app)
     return app

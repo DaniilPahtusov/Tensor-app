@@ -3,12 +3,13 @@ import random
 from flask import Blueprint
 from flask import request
 from flask_login import LoginManager, UserMixin, login_required, login_user, current_user, logout_user
-from lib.user import User
-from lib.users import Users
 from lib.database.db import mongo
 # from flask.ext.login import UserMixin
 
 api = Blueprint('app', __name__)
+
+from api import login_manager
+from user import User
 
 @api.route('/login', methods=['POST'])
 def login():
@@ -25,18 +26,26 @@ def login():
         user.password_hash = data['password']
         user.set_id(data['_id'])
         if user.check_password(password):
-            login_user(user)
+            # if current_user.is_authenticated:
+            #     print("yes")
+            # else:
+            #     print("no")
+            # login_user(user)
+            # if user.is_authenticated:
+            #     print("yes")
+            # else:
+            #     print("no")
             return {'result': True, 'userInfo': {"login":login, 'errorMessage': None, "password":user.password_hash}}
         else:
             return {'result': False, 'errorMessage': 'Invalid password', 'userInfo': None}
 
-@api.route('/demo')
-def demo():
-    pass
-
-
+# Возможно работает, хз как проверить
+@api.route('/logout')
+@login_required
 def logout():
-    pass
+    logout_user()
+    flash("You have been logged out.")
+    return {'result': True, 'errorMessage': None, 'userInfo': None}
 
 # registration new user
 @api.route('/registration', methods=['POST'])
