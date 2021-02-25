@@ -26,8 +26,7 @@ const dialogsReducer = (state = initalState, action) => {
         }
         default:
             return state
-    }
-        
+    }  
 }
 
 export const updateLastMessageAC = (userId, message, fromMe) => ({type: UPDATE_LAST_MESSAGE, userId, message, fromMe});

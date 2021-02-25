@@ -1,9 +1,19 @@
-.frukt-input-blocks {
-    width: 50%;
-    display: inline;
+.frukt-main-window {
+    width: 100%;
+    height: 100%;
+}
+
+.frukt-input-block-info {
+    width: 30%;
+    height: 100%;
     font-family: 'Segoe print';
     text-align: center;
-    position: relative;
+}
+
+.frukt-input-block-image {
+    width: 70%;
+    font-family: 'Segoe print';
+    text-align: center;
 }
 
 .frukt-first-block {
@@ -100,12 +110,38 @@
     font-size: 20px;
     text-decoration: none;
     line-height: 35px;
+    border: unset;
 }
   
 .frukt-last-block {
-    margin-top: auto;
     position: absolute;
-    bottom: 15px;
-    left: 10%;
+    bottom: 0;
+    left: 3%;
+    display: inline-block;
+}
+
+.frukt-login-first-input {
+    margin-bottom: 24px;
+}
+  
+.frukt-login-title {
+    font-size: 20px;
+    color: #999;  
+    line-height: 35px;
+    margin-bottom: 6px;
+}
+  
+.frukt-login-input {
+    width: 300px;
+    height: 54px;
+    font-family: 'Segoe print';
+    font-size: 20px;
+    border: none;
+    border-bottom: 1px solid #ECC939;
+    outline: none;
+}
+  
+.frukt-login-input:hover, .frukt-login-input:focus {
+    border-bottom: 2px solid #ECC939;
 }
   
