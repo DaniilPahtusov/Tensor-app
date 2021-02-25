@@ -7,7 +7,7 @@ from flask_pymongo import PyMongo
 from lib.database.db import initialize_db
 from lib.database.db import mongo
 import uuid
-#from lib.login_manager.login_manager import initialize_login_manager
+
 login_manager = LoginManager()
 from routes import api
 
