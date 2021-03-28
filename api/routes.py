@@ -10,6 +10,14 @@ api = Blueprint('app', __name__)
 from api import login_manager
 from user import User
 
+# logining
+'''
+Input: 
+    login - user's login;
+    password - user's entered password
+Return:
+    json doc with boolean result, message with error's description, information about user included his login and user's dialogs
+'''
 @api.route('/login', methods=['POST'])
 def login():
     f = request.get_json()
@@ -31,6 +39,13 @@ def login():
             return {'result': False, 'errorMessage': 'Invalid password', 'userInfo': None}
 
 # registration new user
+'''
+Input: 
+    login - new user's login;
+    password - new user's password
+Return:
+    json doc with boolean result, message with error's  description, information about user included his login
+'''
 @api.route('/registration', methods=['POST'])
 def register():
     f = request.get_json()
@@ -46,5 +61,23 @@ def register():
         return {'result': True, 'errorMessage': None, 'userInfo': {"login":login}}
 
     return {'result': False, 'errorMessage': 'Already existing user', 'userInfo': None}
+
+# creating new user's dialogs
+'''
+Input: login
+Return: json doc with boolean result, message with error's description, information about user included his login and user's dialogs
+'''
+@api.route('/new_dialog', methods=['POST'])
+def new_dialog():
+    f = request.get_json
+    login = f.get('login')
+
+    data = mongo.db.users.find({"login": login})
+
+    if data is None:
+        return {'result': False, 'errorMessage': 'Not existing user', 'userInfo': None}
+    else
+        return {'result': True, 'errorMessage': None, userInfo: None}
+
 
 # curl --request POST --header 'Content-Type: application/json' --data '{"login": "Test", "password": "Test"}' 'http://127.0.0.1:5000/login'    
