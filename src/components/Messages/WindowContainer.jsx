@@ -6,7 +6,8 @@ import MainWindow from './Window';
 let mapStateToProps = (state) => {
     return {
         messages: state.messagesInfo.messages,
-        newMessage: state.messagesInfo.newMessage
+        newMessage: state.messagesInfo.newMessage,
+        userInfo: state.userInfo
     }
 }
 

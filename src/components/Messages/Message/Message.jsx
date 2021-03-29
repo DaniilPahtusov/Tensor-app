@@ -2,21 +2,26 @@ import React from 'react';
 
 import css from './Message.module.css';
 
-export default function Message(props) {
-    let message;
-    if (props.messageInfo.fromMe) {
-        message =
-            <div className={css.fromMe}>
-                {props.messageInfo.message}
-            </div>
-    } else {
-        message = 
-            <div className={css.notFromMe}>
-                {props.messageInfo.message}
-            </div>
+export default class Message extends React.Component {
+    constructor(props) {
+        super();
     }
-    
-    return (
-        message
-    )
+    render() {
+        let message;
+        if (this.props.messageInfo.fromMe) {
+            message =
+                <div className={css.fromMe}>
+                    <div className={css.text}>{this.props.messageInfo.message}</div>
+                </div>
+        } else {
+            message = 
+                <div className={css.notFromMe}>
+                    <div className={css.text}>{this.props.messageInfo.message}</div>
+                </div>
+        }
+        
+        return (
+            message
+        )
+    }
 } 

@@ -4,8 +4,8 @@
 }
 
 .window {
-    height: calc(100% - 46px);
     width: 100%;
+    height: 90%;
 }
 
 .input {
@@ -17,6 +17,39 @@
     height: 44px;
     width: 50%;
     z-index: 2;
-    border: 0;
-    margin: 0;
+    margin: 0 14px 0 0;
+    font-size: 18px;
+    font-family: 'Segoe print';
+    border: none;
+    border-bottom: 1px solid #ECC939;
+    outline: none;
+}
+
+.inputBlock:hover, .inputBlock:focus {
+    border-bottom: 3px solid #ECC939;
+}
+
+.sendButton {
+    border-radius: 25px;
+    border: none;
+    width: 132px;
+    height: 40px;
+    box-shadow: 2px 4px 7px 2px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to left, #DB2001, #EC7301);
+}
+
+.sendButton:hover {
+    width: 140px;
+    height: 50px;
+    border-radius: 30px;
+}
+
+.buttonText {
+    font-family: 'Segoe print';
+    font-size: 14px;
+    color: white;
+}
+
+.login {
+    font-size: 24px;
 }

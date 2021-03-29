@@ -17,8 +17,8 @@ let mapDispatchToProps = (dispatch) => {
         onChangeLogin: (login) => {
             dispatch(updateLoginActionCreator(login))
         },
-        authorization: () => {
-            dispatch(authorizationActionCreator())
+        authorization: (history) => {
+            dispatch(authorizationActionCreator(history))
         }
     }
 }

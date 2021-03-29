@@ -9,7 +9,8 @@ const ACTION_TYPE = {
 let initalState = {
     currentId: null,
     login: '',
-    password: ''
+    password: '',
+    dialogs: []
 };
 
 const authReducer = (state = initalState, action) => {
@@ -25,14 +26,18 @@ const authReducer = (state = initalState, action) => {
             return stateCopy;
         }
         case ACTION_TYPE.AUTHORIZATION: {
+            let stateCopy = {...state};
             axios.post('http://127.0.0.1:5000/login', {
                 login: state.login,
                 password: state.password
             }).then((response) => {
                 if (response.data.result) {
-                    window.location.pathname = '/messanger';
+                    stateCopy.dialogs = response.data.userInfo.dialogs;
+                    action.history.push('/messanger');
+                    return stateCopy;
                 }
             });
+            return stateCopy;
         }
         default:
             return state
@@ -53,9 +58,10 @@ export const updatePasswordActionCreator = (password) => {
     }
 }
 
-export const authorizationActionCreator = () => {
+export const authorizationActionCreator = (history) => {
     return {
-        type: ACTION_TYPE.AUTHORIZATION
+        type: ACTION_TYPE.AUTHORIZATION,
+        history
     }
 }
 

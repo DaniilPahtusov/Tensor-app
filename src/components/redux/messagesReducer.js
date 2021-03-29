@@ -8,7 +8,7 @@ const initialState = {
         {   
             id: 1,
             fromMe: true,
-            message: 'qweqwwe'
+            message: 'qweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwwe'
         }, {  
             id: 2,
             fromMe: false,

@@ -1,7 +1,19 @@
 .fromMe {
-    text-align: right;
+    text-align: -webkit-right;
+    width: 100%;
 }
 
 .notFromMe {
-    text-align: left;
+    text-align: -webkit-left;
+    width: 100%;
+}
+
+.text {
+    width: 50%;
+    word-break: break-all;
+}
+
+.notFromMe:hover, 
+.fromMe:hover  {
+    background-color: rgba(162, 179, 199, 0.548);
 }

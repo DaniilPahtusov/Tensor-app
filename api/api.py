@@ -16,7 +16,7 @@ def create_app():
     CORS(app)
     app.config['SECRET_KEY'] = '43af25e2-3fb9-4bb6-a5a4-026d05cd7b75'
     app.config['CORS_HEADERS'] = 'Content-Type'
-    app.config["MONGO_URI"] = "mongodb+srv://TED755:zeZhunek@cluster0.kydw1.mongodb.net/mydatabase?retryWrites=true&w=majority"
+    app.config['MONGO_URI'] = 'mongodb+srv://TED755:zeZhunek@cluster0.kydw1.mongodb.net/mydatabase?retryWrites=true&w=majority'
 
     app.register_blueprint(api, url_prefix='/')
 

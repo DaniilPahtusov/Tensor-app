@@ -5,7 +5,7 @@ import {setDialogsAC} from '../redux/dialogsReducer';
 
 let mapStateToProps = (state) => {
     return {
-        dialogsData: state.dialogsInfo.dialogsData
+        dialogsData: state.userInfo.dialogs
     }
 }
 
