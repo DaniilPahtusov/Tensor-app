@@ -58,6 +58,21 @@ def get_dialogs():
     else:
         return {'result': True, 'errorMessage': None, 'userInfo': {"dilogsData": data['dialogsData']}}
 
+# geting defined user dialog
+'''
+sa
+'''
+@api.route('/dialog', methods=['POST'])
+def get_dialog():
+    f = request.get_json()
+
+    dialogID = f.get('dialogID')
+    data = mongo.db.dialogs.find_one({"_id": dialogID})
+    if data is None:
+        return {'result': False, 'errorMessage': 'Not existing id', 'userInfo': None}
+    else:
+        return {'result': True, 'errorMessage': None, 'userInfo': data}
+
 # registration new user
 '''
 @deprecated
