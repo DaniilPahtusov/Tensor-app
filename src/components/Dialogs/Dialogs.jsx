@@ -50,6 +50,11 @@ export default class Dialogs extends React.Component {
         super();
     }
     render() {
+        axios.post('http://127.0.0.1:5000/dialogs', {
+                login: this.props.login
+            }).then((response) => {
+                return response;
+            });
         const DialogData = this.props.dialogsData.map((el) => 
             <DialogItem 
                 id={1} 
@@ -60,70 +65,8 @@ export default class Dialogs extends React.Component {
             />
         );
         return (
-            <div className={css.scroll}>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
-                <div>
-                    {DialogData}
-                </div>
+            <div>
+                {DialogData}
             </div>
         )
     }

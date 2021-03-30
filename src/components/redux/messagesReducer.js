@@ -21,6 +21,22 @@ const initialState = {
             id: 4,
             fromMe: true,
             message: 'uilu'
+        }, {  
+            id: 5,
+            fromMe: false,
+            message: '1231231231242412414124124214'
+        }, {  
+            id: 6,
+            fromMe: true,
+            message: 'fsdbgvnh'
+        }, {  
+            id: 7,
+            fromMe: false,
+            message: 'qewrfsdgtyui'
+        }, {  
+            id: 8,
+            fromMe: false,
+            message: 'qw2esrdtgfyhgujikjlwqertgfhyjuwedrfgthyujkiwerfthyjukilowedrfgthyjuefdrgtyuhij'
         }
     ],
     newMessage: '123'
