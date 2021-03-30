@@ -35,7 +35,8 @@ def login():
         user.password_hash = data['password']
         user.set_id(data['_id'])
         if user.check_password(password):
-            return {'result': True, 'errorMessage': None, 'userInfo': {"userID":user.id, "login":login}}
+            user.set_dialogs(data['dialogs'])
+            return {'result': True, 'errorMessage': None, 'userInfo': {"userID":user.id, "login":login, "dialogs": user.dialogs}}
         else:
             return {'result': False, 'errorMessage': 'Invalid password', 'userInfo': None}
 
