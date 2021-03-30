@@ -25,7 +25,9 @@ def login():
     login = f.get('login')
     password = f.get('password')
 
+    # data = mongo.db.dialogs_test.find({"login": login})
     data = mongo.db.users.find_one({"login": login})
+    #print(data)
     if data is None:
         return {'result': False, 'errorMessage': 'Not existing user', 'userInfo': None}
     else:
@@ -33,13 +35,31 @@ def login():
         user.password_hash = data['password']
         user.set_id(data['_id'])
         if user.check_password(password):
-            user.set_dialogs(data['dialogs'])
-            return {'result': True, 'errorMessage': None, 'userInfo': {"login":login, "dialogs": user.dialogs}}
+            return {'result': True, 'errorMessage': None, 'userInfo': {"userID":user.id, "login":login}}
         else:
             return {'result': False, 'errorMessage': 'Invalid password', 'userInfo': None}
 
+# getting dialogs
+'''
+Input: 
+    userID - Recomended format userID
+Return:
+    json doc with boolean result, message with error's description, information about user's dialogs
+'''
+@api.route('/dialogs', methods=['POST'])
+def get_dialogs():
+    f = request.get_json()
+    
+    userID = f.get('userID')
+    data = mongo.db.dialogs_test.find_one({"_id": int(userID)})
+    if data is None:
+        return {'result': False, 'errorMessage': 'Not existing id', 'userInfo': None}
+    else:
+        return {'result': True, 'errorMessage': None, 'userInfo': {"dilogsData": data['dialogsData']}}
+
 # registration new user
 '''
+@deprecated
 Input: 
     login - new user's login;
     password - new user's password
@@ -76,7 +96,7 @@ def new_dialog():
 
     if data is None:
         return {'result': False, 'errorMessage': 'Not existing user', 'userInfo': None}
-    else
+    else:
         return {'result': True, 'errorMessage': None, userInfo: None}
 
 
