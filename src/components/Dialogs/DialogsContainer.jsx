@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Dialogs from './Dialogs';
-import {setDialogsAC} from '../redux/dialogsReducer';
+import {setDialogsAC, activateDialog, updateErrorMessage, addNewDialog} from '../redux/dialogsReducer';
 import {setMessages} from '../redux/messagesReducer';
 
 let mapStateToProps = (state) => {
     return {
         dialogsData: state.userInfo.dialogs,
-        currentLogin: state.userInfo.login
+        currentLogin: state.userInfo.login,
+        activeDialog: state.dialogsInfo.activeDialog,
+        errorMessage: state.dialogsInfo.errorMessage
     }
 }
 
@@ -18,6 +20,15 @@ let mapDispatchToProps = (dispatch) => {
         },
         setMessages: (messages) => {
             dispatch(setMessages(messages))
+        },
+        activateDialog: (active) => {
+            dispatch(activateDialog(active))
+        },
+        updateErrorMessage: (message) => {
+            dispatch(updateErrorMessage(message));
+        },
+        addNewDialog: (login, currentLogin) => {
+            dispatch(addNewDialog(login, currentLogin));
         }
     }
 }

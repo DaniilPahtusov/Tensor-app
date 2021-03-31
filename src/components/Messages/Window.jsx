@@ -29,9 +29,6 @@ export default class MainWindow extends React.Component {
                 <div className={css.window}>
                     {messagesData}
                 </div>
-                <div className={css.login}>
-                    {this.props.currentLogin}
-                </div>
                 <div className={css.input}>
                     <input 
                         ref={this.newMessage} 

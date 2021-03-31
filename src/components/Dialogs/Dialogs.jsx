@@ -4,11 +4,19 @@ import DialogItem from './DialogItem/DialogItem';
 import * as axios from 'axios';
 import css from './Dialogs.module.css';
 
+import Dialog from './AddDialog/AddDialog';
+
 export default class Dialogs extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.dialogClick = this.dialogClick.bind(this);
+        this.activateDialog = this.activateDialog.bind(this);
+        this.updateErrorMessage = this.updateErrorMessage.bind(this);
+        this.addNewDialog = this.addNewDialog.bind(this);
     }
+    
+    active = false;
+
     dialogClick(dialogID) {
         axios.post('http://127.0.0.1:5000/dialog', {
             dialogID: dialogID
@@ -19,6 +27,19 @@ export default class Dialogs extends React.Component {
             }
         });
     }
+
+    activateDialog(active) {
+        this.props.activateDialog(active);
+    }
+
+    updateErrorMessage(message) {
+        this.props.updateErrorMessage(message);
+    }
+
+    addNewDialog(login) {
+        this.props.addNewDialog(login, this.props.currentLogin);
+    }
+
     render() {
         let DialogData = [];
         if (this.props.dialogsData) {
@@ -35,8 +56,26 @@ export default class Dialogs extends React.Component {
             );
         }
         return (
-            <div>
-                {DialogData}
+            <div className={css.dialogs}>
+                <div>
+                    {DialogData}
+                </div>
+                <div>
+                    <button 
+                        className={css.addNewDialog}
+                        onClick={() => {this.activateDialog(true)}}
+                        title="Добавить новый диалог">
+                        <span className={css.buttonText}>+</span>
+                    </button>
+                </div>
+                <Dialog 
+                    active={this.props.activeDialog}
+                    errorMessage={this.props.errorMessage}
+                    activateDialog={this.activateDialog}
+                    updateErrorMessage={this.updateErrorMessage}
+                    currentLogin={this.props.currentLogin}
+                    addNewDialog={this.addNewDialog}
+                />
             </div>
         )
     }
