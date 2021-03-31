@@ -91,7 +91,7 @@ def register():
     if user == 0:
         new_user = User(login)
         new_user.set_password(password)
-        mongo.db.users.insert_one({"_id": new_user.id, "login":login, "password":new_user.password_hash, "dialogs":new_user.dialogs})
+        mongo.db.users.insert_one({"_id": new_user.id, "login":login, "password":new_user.password_hash, "image": image, "dialogs":new_user.dialogs})
         return {'result': True, 'errorMessage': None, 'userInfo': {"login":login}}
 
     return {'result': False, 'errorMessage': 'Already existing user', 'userInfo': None}
@@ -99,7 +99,7 @@ def register():
 # creating new user's dialogs
 '''
 Input: sender and recipient logins
-Return: json doc with boolean result, message with error's description, information about user included his login and user's dialogs
+Return: json doc with boolean result, message with error's description
 '''
 @api.route('/new_dialog', methods=['POST'])
 def new_dialog():
@@ -111,6 +111,9 @@ def new_dialog():
     users_json = {"last_message": "", "id": dialogID, "photoID": "", "name": "", "sender": ""} # new dialog to users DB
     dialogs_json = {"_id": dialogID, "messages": []}
 
+    recipient_data = mongo.db.users.find_one({"login": recipient})
+    recipient_image = recipient_data['image']
+
     if mongo.db.users.find({"login": sender}) is None:
         return {'result': False, 'errorMessage': 'Not existing sender', 'userInfo': None}
     elif mongo.db.users.find({"login": recipient}) is None:
@@ -119,7 +122,38 @@ def new_dialog():
         mongo.db.users.update({"login": sender}, {"$push": {"dialogs": users_json}})
         mongo.db.users.update({"login": recipient}, {"$push": {"dialogs": users_json}})
         mongo.db.dialogs.insert_one(dialogs_json)
+        return {'result': True, 'errorMessage': None, 'userInfo': {"dialogID": dialogID, "image": recipient_image, "login": recipient}}
+
+# send message
+'''
+Input: sender and recipient logins, message_text, dialog ID
+Return: json doc with result description
+'''
+@api.route('/send_message', methods=['POST'])
+def send_message():
+    f = request.get_json()
+
+    sender = f.get('sender')
+    recipient = f.get('recipient')
+    message_text = f.get('message')
+    dialogID = f.get('dialogID')
+
+    user_sender = mongo.db.users.find_one({"login": sender})
+    image = user_sender['image']
+
+    if mongo.db.users.find({"login": sender}) is None:
+        return {'result': False, 'errorMessage': 'Not existing sender', 'userInfo': None}
+    elif mongo.db.users.find({"login": recipient}) is None:
+        return {'result': False, 'errorMessage': 'Not existing recipient', 'userInfo': None}
+    elif message_text is None:
+        return {'result': False, 'errorMessage': 'Null message', 'userInfo': None}
+    else:
+        message_json = {"login": sender, "message": message_text}
+        mongo.db.dialogs.update({"_id": dialogID}, {"$push": {"messages": message_json}})
+        dialog_json = {"last_message": message_text, "id": dialogID, "photoID": image, "name": sender, "sender": sender}
+        mongo.db.users.update({"login": sender, "dialogs.id": dialogID}, {"$set": {"dialogs.$": dialog_json}})
+        mongo.db.users.update({"login": recipient, "dialogs.id": dialogID}, {"$set": {"dialogs.$": dialog_json}})
         return {'result': True, 'errorMessage': None, 'userInfo': None}
 
-
-# curl --request POST --header 'Content-Type: application/json' --data '{"login": "Test", "password": "Test"}' 'http://127.0.0.1:5000/login'    
+# curl --request POST --header 'Content-Type: application/json' --data '{"login": "Test", "password": "Test"}' 'http://127.0.0.1:5000/login'
+# curl --request POST --header 'Content-Type: application/json' --data '{"sender": "Test", "recipient": "Test1", "message":"Hello, World!", "dialogID": 9290281645}' 'http://127.0.0.1:5000/send_message'
