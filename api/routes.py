@@ -106,23 +106,30 @@ def new_dialog():
     f = request.get_json()
     sender = f.get('sender')
     recipient = f.get('recipient')
+    
+    if existing_dialog(sender, recipient):
+        return {'result': False, 'errorMessage': 'already existing dialog', 'userInfo': None}
 
     dialogID = randint(1000000000, 9999999999)
-    users_json = {"last_message": "", "id": dialogID, "photoID": "", "name": "", "sender": ""} # new dialog to users DB
+    users_json = {"last_message": "", "id": dialogID, "photoID": "", "login": "", "sender": ""} # new dialog to users DB
     dialogs_json = {"_id": dialogID, "messages": []}
 
     recipient_data = mongo.db.users.find_one({"login": recipient})
     recipient_image = recipient_data['image']
 
-    if mongo.db.users.find({"login": sender}) is None:
-        return {'result': False, 'errorMessage': 'Not existing sender', 'userInfo': None}
-    elif mongo.db.users.find({"login": recipient}) is None:
+    if mongo.db.users.find({"login": recipient}) is None:
         return {'result': False, 'errorMessage': 'Not existing recipient', 'userInfo': None}
     else:
         mongo.db.users.update({"login": sender}, {"$push": {"dialogs": users_json}})
         mongo.db.users.update({"login": recipient}, {"$push": {"dialogs": users_json}})
         mongo.db.dialogs.insert_one(dialogs_json)
         return {'result': True, 'errorMessage': None, 'userInfo': {"dialogID": dialogID, "image": recipient_image, "login": recipient}}
+
+# check for already existing dialog
+def existing_dialog(sender, recipient):
+    mongo.db.users.find({})
+
+    return True
 
 # send message
 '''
@@ -150,9 +157,10 @@ def send_message():
     else:
         message_json = {"login": sender, "message": message_text}
         mongo.db.dialogs.update({"_id": dialogID}, {"$push": {"messages": message_json}})
-        dialog_json = {"last_message": message_text, "id": dialogID, "photoID": image, "name": sender, "sender": sender}
-        mongo.db.users.update({"login": sender, "dialogs.id": dialogID}, {"$set": {"dialogs.$": dialog_json}})
-        mongo.db.users.update({"login": recipient, "dialogs.id": dialogID}, {"$set": {"dialogs.$": dialog_json}})
+        dialog_json_sender = {"last_message": message_text, "id": dialogID, "photoID": image, "login": sender, "sender": sender}
+        dialog_json_recipient = {"last_message": message_text, "id": dialogID, "photoID": image, "login": recipient, "sender": sender}
+        mongo.db.users.update({"login": sender, "dialogs.id": dialogID}, {"$set": {"dialogs.$": dialog_json_recipient}})
+        mongo.db.users.update({"login": recipient, "dialogs.id": dialogID}, {"$set": {"dialogs.$": dialog_json_sender}})
         return {'result': True, 'errorMessage': None, 'userInfo': None}
 
 # curl --request POST --header 'Content-Type: application/json' --data '{"login": "Test", "password": "Test"}' 'http://127.0.0.1:5000/login'
