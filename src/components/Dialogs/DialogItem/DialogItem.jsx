@@ -8,7 +8,7 @@ export default class DialogItem extends React.Component {
     }
     render() {
         let message;
-        if (this.props.fromMe) {
+        if (this.props.sendLogin === this.props.currentLogin) {
             message = 
             <div className={css.withYou}>
                 <div className={css.you}>

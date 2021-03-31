@@ -34,7 +34,7 @@ const authReducer = (state = initalState, action) => {
             }).then((response) => {
                 if (response.data.result) {
                     stateCopy.dialogs = response.data.userInfo.dialogs;
-                    stateCopy.self_id = response.data.userInfo._id;
+                    stateCopy.self_id = response.data.userInfo.userID;
                     action.history.push('/messanger');
                     return stateCopy;
                 }

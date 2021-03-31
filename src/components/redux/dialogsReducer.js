@@ -2,7 +2,8 @@ const UPDATE_LAST_MESSAGE = 'UPDATE-LAST-MESSAGE';
 const SET_DIALOGS = 'SET_DIALOGS';
 
 let initalState = {
-    dialogsData: []
+    dialogsData: [],
+    firstLoad: true
 };
 
 const dialogsReducer = (state = initalState, action) => {
@@ -19,10 +20,10 @@ const dialogsReducer = (state = initalState, action) => {
             }
         }
         case SET_DIALOGS: {
-            return {
-                ...state,
-                dialogsData: [ ...state.dialogsData, ...action.dialogs ]
-            }
+            let stateCopy = {...state};
+            stateCopy.dialogsData = action.dialogs;
+            stateCopy.firstLoad = false;
+            return stateCopy;
         }
         default:
             return state
