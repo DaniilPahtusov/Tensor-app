@@ -1,44 +1,11 @@
 const ACTION_TYPE = {
     UPDATE_NEW_MESSAGE: 'UPDATE-NEW-MESSAGE',
-    SEND_MESSAGE: 'SEND-MESSAGE'
+    SEND_MESSAGE: 'SEND-MESSAGE',
+    SET_MESSAGES: 'SET-MESSAGES'
 }
 
 const initialState = {
-    messages: [
-        {   
-            id: 1,
-            fromMe: true,
-            message: 'qweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwweqweqwwe'
-        }, {  
-            id: 2,
-            fromMe: false,
-            message: 'asd'
-        }, {  
-            id: 3,
-            fromMe: true,
-            message: 'zxc'
-        }, {  
-            id: 4,
-            fromMe: true,
-            message: 'uilu'
-        }, {  
-            id: 5,
-            fromMe: false,
-            message: '1231231231242412414124124214'
-        }, {  
-            id: 6,
-            fromMe: true,
-            message: 'fsdbgvnh'
-        }, {  
-            id: 7,
-            fromMe: false,
-            message: 'qewrfsdgtyui'
-        }, {  
-            id: 8,
-            fromMe: false,
-            message: 'qw2esrdtgfyhgujikjlwqertgfhyjuwedrfgthyujkiwerfthyjukilowedrfgthyjuefdrgtyuhij'
-        }
-    ],
+    messages: [],
     newMessage: '123'
 };
 
@@ -60,6 +27,11 @@ const messagesReducer = (state = initialState, action) => {
             stateCopy.newMessage = '';
             return stateCopy;
         }
+        case ACTION_TYPE.SET_MESSAGES: {
+            let stateCopy = {...state};
+            stateCopy.messages = action.messages;
+            return stateCopy;
+        }
         default: 
             return state;
     }
@@ -78,5 +50,6 @@ export const sendMessageActionCreator = () => {
     }
 }
 
+export const setMessages = (messages) => ({type: ACTION_TYPE.SET_MESSAGES, messages});
 
 export default messagesReducer;

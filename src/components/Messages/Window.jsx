@@ -21,7 +21,7 @@ export default class MainWindow extends React.Component {
     render() {
 
         let messagesData = this.props.messages.map((messageInfo) =>
-            <Message messageInfo={messageInfo}/>
+            <Message messageInfo={messageInfo} currentLogin={this.props.currentLogin}/>
         );
 
         return (
@@ -30,7 +30,7 @@ export default class MainWindow extends React.Component {
                     {messagesData}
                 </div>
                 <div className={css.login}>
-                    {this.props.userInfo.login}
+                    {this.props.currentLogin}
                 </div>
                 <div className={css.input}>
                     <input 

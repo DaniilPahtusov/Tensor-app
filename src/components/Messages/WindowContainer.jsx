@@ -7,7 +7,7 @@ let mapStateToProps = (state) => {
     return {
         messages: state.messagesInfo.messages,
         newMessage: state.messagesInfo.newMessage,
-        userInfo: state.userInfo
+        currentLogin: state.userInfo.login
     }
 }
 

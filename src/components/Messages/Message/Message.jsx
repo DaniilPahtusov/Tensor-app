@@ -8,7 +8,7 @@ export default class Message extends React.Component {
     }
     render() {
         let message;
-        if (this.props.messageInfo.fromMe) {
+        if (this.props.currentLogin === this.props.messageInfo.login) {
             message =
                 <div className={css.fromMe}>
                     <div className={css.text}>{this.props.messageInfo.message}</div>

@@ -5,7 +5,13 @@ import css from './DialogItem.module.css';
 export default class DialogItem extends React.Component {
     constructor(props) {
         super();
+        this.dialogClick = this.dialogClick.bind(this);
     }
+
+    dialogClick() {
+        this.props.dialogClick(this.props.id);
+    }
+
     render() {
         let message;
         if (this.props.sendLogin === this.props.currentLogin) {
@@ -25,7 +31,7 @@ export default class DialogItem extends React.Component {
             </div>
         }
         return (
-            <div className={css.dialogBlock}>
+            <div className={css.dialogBlock} onClick={this.dialogClick}>
                 <div className={css.blockItem}>
                     <img className={css.photo} src={this.props.photoId}></img>
                     <div className={css.info}>
