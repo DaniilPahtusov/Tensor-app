@@ -1,5 +1,5 @@
 import json
-import random
+from random import randint
 from flask import Blueprint
 from flask import request
 from flask_login import LoginManager, UserMixin, login_required, login_user, current_user, logout_user
@@ -7,7 +7,6 @@ from lib.database.db import mongo
 
 api = Blueprint('app', __name__)
 
-from api import login_manager
 from user import User
 
 # logining
@@ -25,9 +24,7 @@ def login():
     login = f.get('login')
     password = f.get('password')
 
-    # data = mongo.db.dialogs_test.find({"login": login})
     data = mongo.db.users.find_one({"login": login})
-    #print(data)
     if data is None:
         return {'result': False, 'errorMessage': 'Not existing user', 'userInfo': None}
     else:
@@ -88,6 +85,7 @@ def register():
 
     login = f.get('login')
     password = f.get('password')
+    image = f.get('image')
     user = mongo.db.users.find({"login": login}).count()
 
     if user == 0:
@@ -100,20 +98,28 @@ def register():
 
 # creating new user's dialogs
 '''
-Input: login
+Input: sender and recipient logins
 Return: json doc with boolean result, message with error's description, information about user included his login and user's dialogs
 '''
 @api.route('/new_dialog', methods=['POST'])
 def new_dialog():
-    f = request.get_json
-    login = f.get('login')
+    f = request.get_json()
+    sender = f.get('sender')
+    recipient = f.get('recipient')
 
-    data = mongo.db.users.find({"login": login})
+    dialogID = randint(1000000000, 9999999999)
+    users_json = {"last_message": "", "id": dialogID, "photoID": "", "name": "", "sender": ""} # new dialog to users DB
+    dialogs_json = {"_id": dialogID, "messages": []}
 
-    if data is None:
-        return {'result': False, 'errorMessage': 'Not existing user', 'userInfo': None}
+    if mongo.db.users.find({"login": sender}) is None:
+        return {'result': False, 'errorMessage': 'Not existing sender', 'userInfo': None}
+    elif mongo.db.users.find({"login": recipient}) is None:
+        return {'result': False, 'errorMessage': 'Not existing recipient', 'userInfo': None}
     else:
-        return {'result': True, 'errorMessage': None, userInfo: None}
+        mongo.db.users.update({"login": sender}, {"$push": {"dialogs": users_json}})
+        mongo.db.users.update({"login": recipient}, {"$push": {"dialogs": users_json}})
+        mongo.db.dialogs.insert_one(dialogs_json)
+        return {'result': True, 'errorMessage': None, 'userInfo': None}
 
 
 # curl --request POST --header 'Content-Type: application/json' --data '{"login": "Test", "password": "Test"}' 'http://127.0.0.1:5000/login'    
