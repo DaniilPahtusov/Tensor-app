@@ -1,11 +1,26 @@
 import { connect } from 'react-redux';
-import {updateLoginActionCreator, updatePasswordActionCreator, authorizationActionCreator} from '../redux/authReducer';
+import {
+    updateLoginActionCreator, 
+    updateErrorMessage, 
+    updatePasswordActionCreator, 
+    authorizationActionCreator, 
+    activateDialog,
+    updateRegLogin,
+    updateRegPassword,
+    updateRegPhoto,
+    updateMainInfoUser} 
+from '../redux/authReducer';
 import Auth from './Auth';
 
 let mapStateToProps = (state) => {
     return {
         login: state.userInfo.login,
-        password: state.userInfo.password
+        password: state.userInfo.password,
+        activeDialog: state.userInfo.activeDialog,
+        errorMessage: state.userInfo.errorMessage,
+        photoSrc: state.userInfo.regPhoto,
+        regLogin: state.userInfo.regLogin,
+        regPassword: state.userInfo.regPassword
     }
 }
 
@@ -19,6 +34,24 @@ let mapDispatchToProps = (dispatch) => {
         },
         authorization: (history) => {
             dispatch(authorizationActionCreator(history))
+        },
+        activateDialog: (active) => {
+            dispatch(activateDialog(active))
+        },
+        updateErrorMessage: (message) => {
+            dispatch(updateErrorMessage(message));
+        },
+        updateRegLogin: (regLogin) => {
+            dispatch(updateRegLogin(regLogin));
+        },
+        updateRegPassword: (regPassword) => {
+            dispatch(updateRegPassword(regPassword));
+        },
+        updateRegPhoto: (regPhoto) => {
+            dispatch(updateRegPhoto(regPhoto));
+        },
+        updateMainInfoUser: () => {
+            dispatch(updateMainInfoUser());
         }
     }
 }

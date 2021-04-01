@@ -1,26 +1,61 @@
 import React from 'react';
 import mainPNG from '../images/main.jpg';
+
+import Registration from './Registration/Registration';
 import './Auth.css';
 
 export default class Auth extends React.Component {
     constructor(props) {
         super();
+        this.onChangeLogin = this.onChangeLogin.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
+        this.activateDialog = this.activateDialog.bind(this);
+        this.updateErrorMessage = this.updateErrorMessage.bind(this);
+        this.authorization = this.authorization.bind(this);
+        this.updateRegLogin = this.updateRegLogin.bind(this);
+        this.updateRegPassword = this.updateRegPassword.bind(this);
+        this.updateRegPhoto = this.updateRegPhoto.bind(this);
+        this.updateMainInfoUser = this.updateMainInfoUser.bind(this);
     }
     
     login = React.createRef();
     password = React.createRef();
 
-    onChangeLogin = () => {
+    onChangeLogin() {
         let newLogin = this.login.current.value;
         this.props.onChangeLogin(newLogin);
     }
     
-    onChangePassword = () => {
+    onChangePassword() {
         let newPassword = this.password.current.value;
         this.props.onChangePassword(newPassword);
     }
+
+    activateDialog(active) {
+        this.props.activateDialog(active);
+    }
+
+    updateErrorMessage(message) {
+        this.props.updateErrorMessage(message);
+    }
+
+    updateRegLogin(regLogin) {
+        this.props.updateRegLogin(regLogin);
+    }
+
+    updateRegPassword(regPassword) {
+        this.props.updateRegPassword(regPassword);
+    }
+
+    updateRegPhoto(regPhoto) {
+        this.props.updateRegPhoto(regPhoto);
+    }
     
-    authorization = () => {
+    updateMainInfoUser() {
+        this.props.updateMainInfoUser();
+    }
+
+    authorization() {
         this.props.authorization(this.props.history);
     }
 
@@ -67,9 +102,27 @@ export default class Auth extends React.Component {
                     </div>
                     <div className="frukt-last-block">
                         <span className="frukt-login-none-text">Нет аккаунта?</span>
-                        <button className="frukt-registr frukt-link-decoration">Зарегестрируйтесь!</button>
+                        <button 
+                            className="frukt-registr frukt-link-decoration"
+                            onClick={() => {this.activateDialog(true)}}>
+                                Зарегестрируйтесь!
+                        </button>
                     </div>
                 </div>
+                <Registration 
+                    active={this.props.activeDialog}
+                    errorMessage={this.props.errorMessage}
+                    photoSrc={this.props.photoSrc}
+                    regLogin={this.props.regLogin}
+                    regPassword={this.props.regPassword}
+                    activateDialog={this.activateDialog}
+                    updateErrorMessage={this.updateErrorMessage}
+                    updateRegLogin={this.updateRegLogin}
+                    updateRegPassword={this.updateRegPassword}
+                    updateRegPhoto={this.updateRegPhoto}
+                    history={this.props.history}
+                    updateMainInfoUser={this.updateMainInfoUser}
+                />
                 <div className="frukt-input-block-image">
                     {/* <div className="fruit-image-block ws-ellipsis">
                         <img className="fruit-image" src={mainPNG} />
