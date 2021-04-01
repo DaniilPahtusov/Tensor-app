@@ -9,12 +9,12 @@ export default class DialogItem extends React.Component {
     }
 
     dialogClick() {
-        this.props.dialogClick(this.props.id);
+        this.props.dialogClick(this.props.id, this.props.name);
     }
 
     render() {
         let message;
-        if (this.props.sendLogin === this.props.currentLogin) {
+        if (this.props.sender === this.props.currentLogin) {
             message = 
             <div className={css.withYou}>
                 <div className={css.you}>

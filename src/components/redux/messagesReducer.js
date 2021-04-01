@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const ACTION_TYPE = {
     UPDATE_NEW_MESSAGE: 'UPDATE-NEW-MESSAGE',
     SEND_MESSAGE: 'SEND-MESSAGE',
@@ -7,6 +9,8 @@ const ACTION_TYPE = {
 
 const initialState = {
     messages: [],
+    activeDialog: null,
+    name: '',
     newMessage: '123'
 };
 
@@ -21,16 +25,23 @@ const messagesReducer = (state = initialState, action) => {
             let stateCopy = {...state};
             stateCopy.messages = [...state.messages];
             stateCopy.messages.push({
-                id: state.messages.length,
-                fromMe: true,
+                login: action.sender,
                 message: state.newMessage
             });
             stateCopy.newMessage = '';
+            axios.post('http://127.0.0.1:5000/send_message', {
+                sender: action.sender,
+                recipient: state.name,
+                dialogID: state.activeDialog,
+                message: state.newMessage
+            });
             return stateCopy;
         }
         case ACTION_TYPE.SET_MESSAGES: {
             let stateCopy = {...state};
             stateCopy.messages = action.messages;
+            stateCopy.activeDialog = action.dialogID;
+            stateCopy.name = action.name;
             return stateCopy;
         }
         case ACTION_TYPE.UPDATE_MESSAGES: {
@@ -50,12 +61,13 @@ export const updateNewMessageActionCreator = (message) => {
     }
 }
 
-export const sendMessageActionCreator = () => {
+export const sendMessageActionCreator = (sender) => {
     return {
-        type: ACTION_TYPE.SEND_MESSAGE
+        type: ACTION_TYPE.SEND_MESSAGE,
+        sender
     }
 }
 
-export const setMessages = (messages) => ({type: ACTION_TYPE.SET_MESSAGES, messages});
+export const setMessages = (messages, dialogID, name) => ({type: ACTION_TYPE.SET_MESSAGES, messages, dialogID, name});
 
 export default messagesReducer;

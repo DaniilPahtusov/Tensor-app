@@ -7,14 +7,14 @@ let mapStateToProps = (state) => {
     return {
         messages: state.messagesInfo.messages,
         newMessage: state.messagesInfo.newMessage,
-        currentLogin: state.userInfo.login
+        currentLogin: state.userInfo.login,
     }
 }
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        sendNewMessage: () => {
-            dispatch(sendMessageActionCreator())
+        sendNewMessage: (sender) => {
+            dispatch(sendMessageActionCreator(sender))
         },
         onChangeMessage: (text) => {
             dispatch(updateNewMessageActionCreator(text))

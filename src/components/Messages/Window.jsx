@@ -10,7 +10,7 @@ export default class MainWindow extends React.Component {
     newMessage = React.createRef();
 
     sendNewMessage = () => {
-        this.props.sendNewMessage();
+        this.props.sendNewMessage(this.props.currentLogin);
     }
 
     onChangeMessage = () => {

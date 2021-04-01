@@ -13,17 +13,34 @@ export default class Dialogs extends React.Component {
         this.activateDialog = this.activateDialog.bind(this);
         this.updateErrorMessage = this.updateErrorMessage.bind(this);
         this.addNewDialog = this.addNewDialog.bind(this);
+        this.recursionUpdateMessage = this.recursionUpdateMessage.bind(this);
     }
     
     active = false;
+    callUpdateMessage = null;
 
-    dialogClick(dialogID) {
+    dialogClick(dialogID, name) {
         axios.post('http://127.0.0.1:5000/dialog', {
             dialogID: dialogID
         })
         .then((response) => {
             if (response.data.result) {
-                this.props.setMessages(response.data.userInfo.messages);
+                this.props.setMessages(response.data.userInfo.messages, dialogID, name);
+            }
+        });
+        if (this.callUpdateMessage) {
+            clearInterval(this.callUpdateMessage);
+        }
+        this.callUpdateMessage = setInterval(this.recursionUpdateMessage, 1000, dialogID, name);
+    }
+
+    recursionUpdateMessage(dialogID, name) {
+        axios.post('http://127.0.0.1:5000/dialog', {
+            dialogID: dialogID
+        })
+        .then((response) => {
+            if (response.data.result) {
+                this.props.setMessages(response.data.userInfo.messages, dialogID, name);
             }
         });
     }
@@ -50,7 +67,7 @@ export default class Dialogs extends React.Component {
                     name={el.login}
                     message={el.lastMessage}
                     photoId={el.photoId}
-                    sendLogin={el.sender}
+                    sender={el.sender}
                     currentLogin={this.props.currentLogin}
                     dialogClick={this.dialogClick}
                 />

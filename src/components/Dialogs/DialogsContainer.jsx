@@ -19,8 +19,8 @@ let mapDispatchToProps = (dispatch) => {
         setDialogs: (dialogs) => {
             dispatch(setDialogsAC(dialogs))
         },
-        setMessages: (messages) => {
-            dispatch(setMessages(messages))
+        setMessages: (messages, dialogID, name) => {
+            dispatch(setMessages(messages, dialogID, name))
         },
         activateDialog: (active) => {
             dispatch(activateDialog(active))
