@@ -112,7 +112,7 @@ def new_dialog():
 
     dialogID = randint(1000000000, 9999999999)
     users_json = {"last_message": "", "id": dialogID, "photoID": "", "login": "", "sender": ""} # new dialog to users DB
-    dialogs_json = {"_id": dialogID, "messages": []}
+    dialogs_json = {"_id": dialogID, "messages": []} # new dialog to dialogs DB
 
     recipient_data = mongo.db.users.find_one({"login": recipient})
     recipient_image = recipient_data['image']
@@ -127,9 +127,14 @@ def new_dialog():
 
 # check for already existing dialog
 def existing_dialog(sender, recipient):
-    mongo.db.users.find({})
+    data = mongo.db.users.find_one({"login": sender})
+    dialogs = data['dialogs']
 
-    return True
+    for dialog in dialogs:
+        if dialog['login'] == recipient:
+            return True
+
+    return False
 
 # send message
 '''
