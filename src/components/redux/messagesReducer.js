@@ -1,7 +1,8 @@
 const ACTION_TYPE = {
     UPDATE_NEW_MESSAGE: 'UPDATE-NEW-MESSAGE',
     SEND_MESSAGE: 'SEND-MESSAGE',
-    SET_MESSAGES: 'SET-MESSAGES'
+    SET_MESSAGES: 'SET-MESSAGES',
+    UPDATE_MESSAGES: 'UPDATE-MESSAGES'
 }
 
 const initialState = {
@@ -28,6 +29,11 @@ const messagesReducer = (state = initialState, action) => {
             return stateCopy;
         }
         case ACTION_TYPE.SET_MESSAGES: {
+            let stateCopy = {...state};
+            stateCopy.messages = action.messages;
+            return stateCopy;
+        }
+        case ACTION_TYPE.UPDATE_MESSAGES: {
             let stateCopy = {...state};
             stateCopy.messages = action.messages;
             return stateCopy;

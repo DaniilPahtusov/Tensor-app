@@ -16,6 +16,13 @@
     background: linear-gradient(to left, #DB2001, #EC7301);
 }
 
+.addNewDialogBlock {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 20;
+}
+
 .addNewDialog:active, .addNewDialog:focus {
     outline: none;
 }

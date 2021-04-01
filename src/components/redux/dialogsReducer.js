@@ -44,17 +44,8 @@ const dialogsReducer = (state = initalState, action) => {
         }
         case ADD_NEW_DIALOG: {
             let stateCopy = {...state};
-            axios.post('http://127.0.0.1:5000/new_dialog', {
-                login: action.currentLogin,
-                recipient: action.login
-            }).then((response) => {
-                if (response.data.result) {
-                } else {
-                    if (response.data.errorMessage === 'Not existing recipient') {
-                        stateCopy.errorMessage = 'Данный пользователь не зарегестрирован!';
-                    }
-                }
-            });
+            stateCopy.dialogsData.push(action.newDialog);
+            return stateCopy;
         }
         default:
             return state
@@ -65,6 +56,6 @@ export const updateLastMessageAC = (userId, message, fromMe) => ({type: UPDATE_L
 export const setDialogsAC = (dialogs) => ({type: SET_DIALOGS, dialogs});
 export const activateDialog = (active) => ({type: ACTIVATE_DIALOG, active});
 export const updateErrorMessage = (message) => ({type: UPDATE_ERROR, message});
-export const addNewDialog = (login, currentLogin) => ({type: ADD_NEW_DIALOG, login, currentLogin});
+export const addNewDialog = (newDialog) => ({type: ADD_NEW_DIALOG, newDialog});
 
 export default dialogsReducer;

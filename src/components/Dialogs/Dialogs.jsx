@@ -36,17 +36,18 @@ export default class Dialogs extends React.Component {
         this.props.updateErrorMessage(message);
     }
 
-    addNewDialog(login) {
-        this.props.addNewDialog(login, this.props.currentLogin);
+    addNewDialog(newDialog) {
+        this.props.addNewDialog(newDialog);
     }
 
     render() {
         let DialogData = [];
+        this.props.setDialogs(this.props.userDialogs);
         if (this.props.dialogsData) {
             DialogData = this.props.dialogsData.map((el) => 
                 <DialogItem 
                     id={el.id} 
-                    name={el.name}
+                    name={el.login}
                     message={el.lastMessage}
                     photoId={el.photoId}
                     sendLogin={el.sender}
@@ -60,7 +61,7 @@ export default class Dialogs extends React.Component {
                 <div>
                     {DialogData}
                 </div>
-                <div>
+                <div className={css.addNewDialogBlock}>
                     <button 
                         className={css.addNewDialog}
                         onClick={() => {this.activateDialog(true)}}

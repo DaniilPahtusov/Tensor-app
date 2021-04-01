@@ -6,7 +6,8 @@ import {setMessages} from '../redux/messagesReducer';
 
 let mapStateToProps = (state) => {
     return {
-        dialogsData: state.userInfo.dialogs,
+        dialogsData: state.dialogsInfo.dialogsData,
+        userDialogs: state.userInfo.dialogs,
         currentLogin: state.userInfo.login,
         activeDialog: state.dialogsInfo.activeDialog,
         errorMessage: state.dialogsInfo.errorMessage
@@ -27,8 +28,8 @@ let mapDispatchToProps = (dispatch) => {
         updateErrorMessage: (message) => {
             dispatch(updateErrorMessage(message));
         },
-        addNewDialog: (login, currentLogin) => {
-            dispatch(addNewDialog(login, currentLogin));
+        addNewDialog: (newDialog) => {
+            dispatch(addNewDialog(newDialog));
         }
     }
 }

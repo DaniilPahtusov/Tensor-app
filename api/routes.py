@@ -111,11 +111,12 @@ def new_dialog():
         return {'result': False, 'errorMessage': 'already existing dialog', 'userInfo': None}
 
     dialogID = randint(1000000000, 9999999999)
-    users_json = {"last_message": "", "id": dialogID, "photoID": "", "login": "", "sender": ""} # new dialog to users DB
-    dialogs_json = {"_id": dialogID, "messages": []} # new dialog to dialogs DB
 
     recipient_data = mongo.db.users.find_one({"login": recipient})
     recipient_image = recipient_data['image']
+    
+    users_json = {"lastMessage": "", "id": dialogID, "photoId": recipient_image, "login": recipient, "sender": ""} # new dialog to users DB
+    dialogs_json = {"_id": dialogID, "messages": []} # new dialog to dialogs DB
 
     if mongo.db.users.find({"login": recipient}) is None:
         return {'result': False, 'errorMessage': 'Not existing recipient', 'userInfo': None}
