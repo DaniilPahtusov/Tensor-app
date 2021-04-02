@@ -19,6 +19,7 @@ cd api
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
+$env:FLASK_APP = "api.py"
 ```
 
 # Установка Front-end
