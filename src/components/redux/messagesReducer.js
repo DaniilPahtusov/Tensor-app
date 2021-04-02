@@ -11,7 +11,7 @@ const initialState = {
     messages: null,
     activeDialog: null,
     name: '',
-    newMessage: '123'
+    newMessage: ''
 };
 
 const messagesReducer = (state = initialState, action) => {

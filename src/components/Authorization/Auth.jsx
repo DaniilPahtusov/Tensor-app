@@ -88,9 +88,6 @@ export default class Auth extends React.Component {
                                     className="frukt-login-input"/>
                             </div>
                         </div>
-                        <div>
-                            <a className="frukt-login-forgot frukt-link-decoration">Забыли пароль?</a>
-                        </div>
                     </div>
                     <div>
                         <button className="frukt-login-button"

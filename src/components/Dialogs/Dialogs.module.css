@@ -38,3 +38,8 @@
     line-height: 40px;
     color: white;
 }
+
+.emptyDialogsText {
+    font-family: 'Segoe print';
+    padding: 12px;
+}

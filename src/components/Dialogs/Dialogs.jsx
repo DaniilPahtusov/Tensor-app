@@ -77,18 +77,25 @@ export default class Dialogs extends React.Component {
             this.callUpdateDialogs = setInterval(this.recursionUpdateDialogs, 3000, this.props.userID);
         }
         if (this.props.dialogsData) {
-            DialogData = this.props.dialogsData.map((el) => 
-                <DialogItem 
-                    id={el.id} 
-                    name={el.login}
-                    message={el.last_message}
-                    photoId={el.photoID}
-                    sender={el.sender}
-                    currentLogin={this.props.currentLogin}
-                    dialogClick={this.dialogClick}
-                    activeDialogId={this.props.activeDialogId}
-                />
-            );
+            if (this.props.dialogsData.length === 0 ) {
+                DialogData = 
+                <div className={css.emptyDialogsText}>
+                    У вас пока что нет ни одного диалога, вы можете добавить друга по кнопке "+" внизу экрана
+                </div>
+            } else {
+                DialogData = this.props.dialogsData.map((el) => 
+                    <DialogItem 
+                        id={el.id} 
+                        name={el.login}
+                        message={el.last_message}
+                        photoId={el.photoID}
+                        sender={el.sender}
+                        currentLogin={this.props.currentLogin}
+                        dialogClick={this.dialogClick}
+                        activeDialogId={this.props.activeDialogId}
+                    />
+                );
+            }
         }
         return (
             <div className={css.dialogs}>

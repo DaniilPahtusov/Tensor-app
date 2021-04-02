@@ -32,10 +32,6 @@ export default class MainWindow extends React.Component {
         this.props.onChangeMessage(message);
     }
 
-    componentDidMount() {
-        this.scrollToBottom();
-    }
-
     componentDidUpdate() {
         if (this.needScrollBottom) {
             this.needScrollBottom = false;
@@ -70,26 +66,29 @@ export default class MainWindow extends React.Component {
                 this.oldMessages = this.messagesData;
             }
         }
-
-        return (
-            <div className={css.block}>
-                <div className={css.window} ref={(el) => { this.messagesContainer = el; }}>
-                    {this.messagesData}
+        if (this.props.dialogsData.length === 0 || !this.props.activeDialog) {
+            return (<div></div>)
+        } else {
+            return (
+                <div className={css.block}>
+                    <div className={css.window} ref={(el) => { this.messagesContainer = el; }}>
+                        {this.messagesData}
+                    </div>
+                    <div className={css.input}>
+                        <input 
+                            ref={this.newMessage} 
+                            className={css.inputBlock} 
+                            value={this.props.newMessage}
+                            onChange={this.onChangeMessage}>
+                        </input>
+                        <button 
+                            className={css.sendButton}
+                            onClick={this.sendNewMessage}>
+                            <span className={css.buttonText}>Отправить</span>
+                        </button>
+                    </div>
                 </div>
-                <div className={css.input}>
-                    <input 
-                        ref={this.newMessage} 
-                        className={css.inputBlock} 
-                        value={this.props.newMessage}
-                        onChange={this.onChangeMessage}>
-                    </input>
-                    <button 
-                        className={css.sendButton}
-                        onClick={this.sendNewMessage}>
-                        <span className={css.buttonText}>Отправить</span>
-                    </button>
-                </div>
-            </div>
-        );
+            );
+        }
     }
 }
