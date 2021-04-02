@@ -13,12 +13,19 @@ python:v3.0+
 nodejs:latest
 ```
 
+Установку и запуск front-end и back-end необходимо производить в двух разных терминалах
 # Установка Back-end
 ```
 cd api
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
+$env:FLASK_APP = "api.py"
+```
+
+# Запуск Back-end
+```
+flask run
 ```
 
 # Установка Front-end
@@ -29,10 +36,5 @@ npm install
 
 # Запуск Front-end
 ```
-cd &{PROJECT_APP}
 npm start
-```
-# Запуск Back-end
-```
-npm start-api
 ```
