@@ -8,7 +8,7 @@ const ACTION_TYPE = {
 }
 
 const initialState = {
-    messages: [],
+    messages: null,
     activeDialog: null,
     name: '',
     newMessage: '123'

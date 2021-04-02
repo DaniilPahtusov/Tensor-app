@@ -4,7 +4,7 @@ import {
     updateErrorMessage, 
     updatePasswordActionCreator, 
     authorizationActionCreator, 
-    activateDialog,
+    activateRegDialog,
     updateRegLogin,
     updateRegPassword,
     updateRegPhoto,
@@ -35,8 +35,8 @@ let mapDispatchToProps = (dispatch) => {
         authorization: (history) => {
             dispatch(authorizationActionCreator(history))
         },
-        activateDialog: (active) => {
-            dispatch(activateDialog(active))
+        activateRegDialog: (active) => {
+            dispatch(activateRegDialog(active))
         },
         updateErrorMessage: (message) => {
             dispatch(updateErrorMessage(message));
@@ -50,8 +50,8 @@ let mapDispatchToProps = (dispatch) => {
         updateRegPhoto: (regPhoto) => {
             dispatch(updateRegPhoto(regPhoto));
         },
-        updateMainInfoUser: () => {
-            dispatch(updateMainInfoUser());
+        updateMainInfoUser: (self_id) => {
+            dispatch(updateMainInfoUser(self_id));
         }
     }
 }

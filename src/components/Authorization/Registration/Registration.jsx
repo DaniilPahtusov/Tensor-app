@@ -47,7 +47,8 @@ export default class Registration extends React.Component {
                 image
             }).then((response) => {
                 if (response.data.result) {
-                    this.props.updateMainInfoUser();
+                    this.props.updateMainInfoUser(response.data.userInfo.self_id);
+                    this.props.activateRegDialog(false);
                     this.props.history.push('/messanger');
                 } else {
                     if (response.data.errorMessage === 'Already existing user') {
@@ -70,7 +71,7 @@ export default class Registration extends React.Component {
             <div className={this.props.active ? 'window active' : 'window'}>
                 <div className={this.props.active ? 'content_reg active' : 'content_reg'}>
                     <div className='inputInfoBlock'>
-                        <div className='input'>
+                        <div className='reg_input'>
                             <div>
                                 <div className='inputText'>
                                     Введите желаемый логин: 

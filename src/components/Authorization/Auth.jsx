@@ -9,7 +9,7 @@ export default class Auth extends React.Component {
         super();
         this.onChangeLogin = this.onChangeLogin.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
-        this.activateDialog = this.activateDialog.bind(this);
+        this.activateRegDialog = this.activateRegDialog.bind(this);
         this.updateErrorMessage = this.updateErrorMessage.bind(this);
         this.authorization = this.authorization.bind(this);
         this.updateRegLogin = this.updateRegLogin.bind(this);
@@ -31,8 +31,8 @@ export default class Auth extends React.Component {
         this.props.onChangePassword(newPassword);
     }
 
-    activateDialog(active) {
-        this.props.activateDialog(active);
+    activateRegDialog(active) {
+        this.props.activateRegDialog(active);
     }
 
     updateErrorMessage(message) {
@@ -51,8 +51,8 @@ export default class Auth extends React.Component {
         this.props.updateRegPhoto(regPhoto);
     }
     
-    updateMainInfoUser() {
-        this.props.updateMainInfoUser();
+    updateMainInfoUser(self_id) {
+        this.props.updateMainInfoUser(self_id);
     }
 
     authorization() {
@@ -80,7 +80,8 @@ export default class Auth extends React.Component {
                         <div>
                             <div className="frukt-login-title">Пароль</div>
                             <div>
-                                <input 
+                                <input
+                                    type="password"
                                     ref={this.password} 
                                     value={this.props.password} 
                                     onChange={this.onChangePassword}
@@ -104,7 +105,7 @@ export default class Auth extends React.Component {
                         <span className="frukt-login-none-text">Нет аккаунта?</span>
                         <button 
                             className="frukt-registr frukt-link-decoration"
-                            onClick={() => {this.activateDialog(true)}}>
+                            onClick={() => {this.activateRegDialog(true)}}>
                                 Зарегестрируйтесь!
                         </button>
                     </div>
@@ -122,6 +123,7 @@ export default class Auth extends React.Component {
                     updateRegPhoto={this.updateRegPhoto}
                     history={this.props.history}
                     updateMainInfoUser={this.updateMainInfoUser}
+                    activateRegDialog={this.activateRegDialog}
                 />
                 <div className="frukt-input-block-image">
                     {/* <div className="fruit-image-block ws-ellipsis">

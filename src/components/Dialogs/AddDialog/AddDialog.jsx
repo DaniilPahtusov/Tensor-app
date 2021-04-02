@@ -28,8 +28,8 @@ export default class Dialog extends React.Component {
                         let userInfo = response.data.userInfo;
                         this.props.addNewDialog({
                             id: userInfo.dialogID,
-                            lastMessage: '',
-                            photoId: userInfo.image,
+                            last_message: '',
+                            photoID: userInfo.image,
                             login: userInfo.login,
                             sender: ''
                         });

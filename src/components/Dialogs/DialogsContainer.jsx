@@ -7,10 +7,12 @@ import {setMessages} from '../redux/messagesReducer';
 let mapStateToProps = (state) => {
     return {
         dialogsData: state.dialogsInfo.dialogsData,
+        activeDialog: state.dialogsInfo.activeDialog,
+        errorMessage: state.dialogsInfo.errorMessage,
         userDialogs: state.userInfo.dialogs,
         currentLogin: state.userInfo.login,
-        activeDialog: state.dialogsInfo.activeDialog,
-        errorMessage: state.dialogsInfo.errorMessage
+        userID: state.userInfo.self_id,
+        activeDialogId: state.messagesInfo.activeDialog
     }
 }
 

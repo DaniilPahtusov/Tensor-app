@@ -2,7 +2,6 @@ import React from 'react';
 
 import DialogsContainer from './Dialogs/DialogsContainer';
 import WindowContainer from './Messages/WindowContainer';
-import AddDialogContainer from './Dialogs/AddDialog/AddDialog';
 
 import css from './Messanger.module.css';
 

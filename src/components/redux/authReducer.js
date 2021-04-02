@@ -80,6 +80,7 @@ const authReducer = (state = initalState, action) => {
         case ACTION_TYPE.UPDATE_MAIN_INFO: {
             let stateCopy = {...state};
             stateCopy.login = stateCopy.regLogin;
+            stateCopy.self_id = action.self_id;
             stateCopy.regLogin = stateCopy.regPassword = '';
             return stateCopy;
         }
@@ -110,11 +111,11 @@ export const authorizationActionCreator = (history) => {
 }
 
 
-export const activateDialog = (active) => ({type: ACTION_TYPE.ACTIVATE_DIALOG, active});
+export const activateRegDialog = (active) => ({type: ACTION_TYPE.ACTIVATE_DIALOG, active});
 export const updateErrorMessage = (message) => ({type: ACTION_TYPE.UPDATE_ERROR, message});
 export const updateRegLogin = (regLogin) => ({type: ACTION_TYPE.UPDATE_REG_LOGIN, regLogin});
 export const updateRegPassword = (regPassword) => ({type: ACTION_TYPE.UPDATE_REG_PASSWORD, regPassword});
 export const updateRegPhoto = (regPhoto) => ({type: ACTION_TYPE.UPDATE_REG_PHOTO, regPhoto});
-export const updateMainInfoUser = () => ({type: ACTION_TYPE.UPDATE_MAIN_INFO});
+export const updateMainInfoUser = (self_id) => ({type: ACTION_TYPE.UPDATE_MAIN_INFO, self_id});
 
 export default authReducer;

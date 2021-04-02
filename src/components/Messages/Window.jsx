@@ -1,6 +1,7 @@
 import React from 'react';
 import css from './Window.module.css';
 import Message from './Message/Message';
+import emptyImage from './emptyImage.png';
 
 export default class MainWindow extends React.Component {
     constructor(props) {
@@ -19,10 +20,29 @@ export default class MainWindow extends React.Component {
     }
 
     render() {
-
-        let messagesData = this.props.messages.map((messageInfo) =>
-            <Message messageInfo={messageInfo} currentLogin={this.props.currentLogin}/>
-        );
+        let messagesData;
+        if (this.props.messages) {
+            if (this.props.messages.length === 0) {
+                messagesData = 
+                <div className={css.emptyBlock}>
+                    <div className={css.emptyText}>
+                        <div>
+                            У вас пока нет ни одного сообщения с данным пользователем.
+                        </div>
+                        <div className={css.startChatText}>
+                            Начните общение первым :)
+                        </div>
+                        <img
+                            src={emptyImage} 
+                            className={css.emptyImage}></img>
+                    </div>
+                </div>
+            } else {
+                messagesData = this.props.messages?.map((messageInfo) =>
+                    <Message messageInfo={messageInfo} currentLogin={this.props.currentLogin}/>
+                );
+            }
+        }
 
         return (
             <div className={css.block}>

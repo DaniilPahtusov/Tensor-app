@@ -14,10 +14,12 @@ export default class Dialogs extends React.Component {
         this.updateErrorMessage = this.updateErrorMessage.bind(this);
         this.addNewDialog = this.addNewDialog.bind(this);
         this.recursionUpdateMessage = this.recursionUpdateMessage.bind(this);
+        this.recursionUpdateDialogs = this.recursionUpdateDialogs.bind(this);
     }
     
     active = false;
     callUpdateMessage = null;
+    callUpdateDialogs = null;
 
     dialogClick(dialogID, name) {
         axios.post('http://127.0.0.1:5000/dialog', {
@@ -45,6 +47,17 @@ export default class Dialogs extends React.Component {
         });
     }
 
+    recursionUpdateDialogs(userID) {
+        axios.post('http://127.0.0.1:5000/dialogs', {
+            userID
+        })
+        .then((response) => {
+            if (response.data.result) {
+                this.props.setDialogs(response.data.userInfo.dilogsData);
+            }
+        });
+    }
+
     activateDialog(active) {
         this.props.activateDialog(active);
     }
@@ -59,17 +72,21 @@ export default class Dialogs extends React.Component {
 
     render() {
         let DialogData = [];
-        this.props.setDialogs(this.props.userDialogs);
+        if (!this.callUpdateDialogs) {
+            this.props.setDialogs(this.props.userDialogs);
+            this.callUpdateDialogs = setInterval(this.recursionUpdateDialogs, 3000, this.props.userID);
+        }
         if (this.props.dialogsData) {
             DialogData = this.props.dialogsData.map((el) => 
                 <DialogItem 
                     id={el.id} 
                     name={el.login}
-                    message={el.lastMessage}
-                    photoId={el.photoId}
+                    message={el.last_message}
+                    photoId={el.photoID}
                     sender={el.sender}
                     currentLogin={this.props.currentLogin}
                     dialogClick={this.dialogClick}
+                    activeDialogId={this.props.activeDialogId}
                 />
             );
         }

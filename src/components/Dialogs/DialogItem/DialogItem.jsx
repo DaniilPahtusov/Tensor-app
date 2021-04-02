@@ -3,7 +3,7 @@ import React from 'react';
 import css from './DialogItem.module.css';
 
 export default class DialogItem extends React.Component {
-    constructor(props) {
+    constructor() {
         super();
         this.dialogClick = this.dialogClick.bind(this);
     }
@@ -14,6 +14,13 @@ export default class DialogItem extends React.Component {
 
     render() {
         let message;
+        let needMarker = this.props.activeDialogId === this.props.id;
+        let markerBlock;
+        if (needMarker) {
+            markerBlock = <div className={css.markerBlock}></div>
+        } else {
+            markerBlock = <div></div>
+        }
         if (this.props.sender === this.props.currentLogin) {
             message = 
             <div className={css.withYou}>
@@ -32,6 +39,7 @@ export default class DialogItem extends React.Component {
         }
         return (
             <div className={css.dialogBlock} onClick={this.dialogClick}>
+                {markerBlock}
                 <div className={css.blockItem}>
                     <img className={css.photo} src={this.props.photoId}></img>
                     <div className={css.info}>

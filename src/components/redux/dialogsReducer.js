@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const UPDATE_LAST_MESSAGE = 'UPDATE-LAST-MESSAGE';
 const SET_DIALOGS = 'SET_DIALOGS';
 const ACTIVATE_DIALOG = 'ACTIVATE-DIALOG';

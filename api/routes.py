@@ -49,11 +49,11 @@ def get_dialogs():
     f = request.get_json()
     
     userID = f.get('userID')
-    data = mongo.db.dialogs_test.find_one({"_id": int(userID)})
+    data = mongo.db.users.find_one({"_id": int(userID)})
     if data is None:
         return {'result': False, 'errorMessage': 'Not existing id', 'userInfo': None}
     else:
-        return {'result': True, 'errorMessage': None, 'userInfo': {"dilogsData": data['dialogsData']}}
+        return {'result': True, 'errorMessage': None, 'userInfo': {"dilogsData": data['dialogs']}}
 
 # geting defined user dialog
 '''
@@ -92,7 +92,7 @@ def register():
         new_user = User(login)
         new_user.set_password(password)
         mongo.db.users.insert_one({"_id": new_user.id, "login":login, "password":new_user.password_hash, "image": image, "dialogs":new_user.dialogs})
-        return {'result': True, 'errorMessage': None, 'userInfo': {"login":login}}
+        return {'result': True, 'errorMessage': None, 'userInfo': {"login":login, "self_id": new_user.id}}
 
     return {'result': False, 'errorMessage': 'Already existing user', 'userInfo': None}
 
@@ -114,15 +114,19 @@ def new_dialog():
 
     recipient_data = mongo.db.users.find_one({"login": recipient})
     recipient_image = recipient_data['image']
+
+    sender_data = mongo.db.users.find_one({"login": sender})
+    sedner_image = sender_data['image']
     
-    users_json = {"lastMessage": "", "id": dialogID, "photoId": recipient_image, "login": recipient, "sender": ""} # new dialog to users DB
+    recipient_json = {"last_message": "", "id": dialogID, "photoID": recipient_image, "login": recipient, "sender": ""} # new dialog to users DB
+    sender_json = {"last_message": "", "id": dialogID, "photoID": sedner_image, "login": sender, "sender": ""} # new dialog to users DB
     dialogs_json = {"_id": dialogID, "messages": []} # new dialog to dialogs DB
 
     if mongo.db.users.find({"login": recipient}) is None:
         return {'result': False, 'errorMessage': 'Not existing recipient', 'userInfo': None}
     else:
-        mongo.db.users.update({"login": sender}, {"$push": {"dialogs": users_json}})
-        mongo.db.users.update({"login": recipient}, {"$push": {"dialogs": users_json}})
+        mongo.db.users.update({"login": sender}, {"$push": {"dialogs": recipient_json}})
+        mongo.db.users.update({"login": recipient}, {"$push": {"dialogs": sender_json}})
         mongo.db.dialogs.insert_one(dialogs_json)
         return {'result': True, 'errorMessage': None, 'userInfo': {"dialogID": dialogID, "image": recipient_image, "login": recipient}}
 
@@ -152,7 +156,10 @@ def send_message():
     dialogID = f.get('dialogID')
 
     user_sender = mongo.db.users.find_one({"login": sender})
-    image = user_sender['image']
+    sender_image = user_sender['image']
+    
+    user_recipient = mongo.db.users.find_one({"login": recipient})
+    recipient_image = user_recipient['image']
 
     if mongo.db.users.find({"login": sender}) is None:
         return {'result': False, 'errorMessage': 'Not existing sender', 'userInfo': None}
@@ -163,8 +170,8 @@ def send_message():
     else:
         message_json = {"login": sender, "message": message_text}
         mongo.db.dialogs.update({"_id": dialogID}, {"$push": {"messages": message_json}})
-        dialog_json_sender = {"last_message": message_text, "id": dialogID, "photoID": image, "login": sender, "sender": sender}
-        dialog_json_recipient = {"last_message": message_text, "id": dialogID, "photoID": image, "login": recipient, "sender": sender}
+        dialog_json_sender = {"last_message": message_text, "id": dialogID, "photoID": sender_image, "login": sender, "sender": sender}
+        dialog_json_recipient = {"last_message": message_text, "id": dialogID, "photoID": recipient_image, "login": recipient, "sender": sender}
         mongo.db.users.update({"login": sender, "dialogs.id": dialogID}, {"$set": {"dialogs.$": dialog_json_recipient}})
         mongo.db.users.update({"login": recipient, "dialogs.id": dialogID}, {"$set": {"dialogs.$": dialog_json_sender}})
         return {'result': True, 'errorMessage': None, 'userInfo': None}

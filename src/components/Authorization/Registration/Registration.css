@@ -19,8 +19,8 @@
 }
 
 .content_reg {
-    height: 380px;
-    width: 700px;
+    height: 390px;
+    width: 800px;
     border-radius: 25px;
     background-color: white;
     transform: scale(0.5);
@@ -32,7 +32,11 @@
     transform: scale(1);
 }
 
-.input, .inputPhotoBlock {
+.reg_input {
+    margin: 35px 40px 0 24px;
+}
+
+.inputPhotoBlock {
     margin: 35px 0 0 24px;
 }
 

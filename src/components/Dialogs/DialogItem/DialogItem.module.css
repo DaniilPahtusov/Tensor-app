@@ -1,7 +1,8 @@
 .dialogBlock {
     display: block;
     width: 100%;
-    border-bottom: 1px solid #999;
+    position: relative;
+    border-bottom: 1px solid #ECC939;
 }
 
 .dialogBlock:hover {
@@ -52,4 +53,13 @@
     line-height: 24px;
     color: red;
     margin-right: 8px;
+}
+
+.markerBlock {
+    height: 100px;
+    width: 4px;
+    background: linear-gradient(to top, #DB2001, #EC7301);
+    position: absolute;
+    top: 0;
+    left: 0;
 }

@@ -60,6 +60,10 @@
     background: linear-gradient(to left, #DB2001, #EC7301);
 }
 
+.frukt-login-button:active, .frukt-login-button:focus {
+    outline: none;
+}
+
 .fruit-image {
     position: relative;
     height: 120%;
@@ -111,6 +115,10 @@
     text-decoration: none;
     line-height: 35px;
     border: unset;
+}
+
+.frukt-registr:active, .frukt-registr:focus {
+    outline: none;
 }
   
 .frukt-last-block {
