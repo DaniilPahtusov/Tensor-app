@@ -8,21 +8,31 @@
 # Установка
 
 Перед установкой проекта необходимо самостоятельно установить:
-
+```
 python:v3.0+ 
 nodejs:latest
+```
 
 # Установка Back-end
-
+```
 cd api
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
+```
 
 # Установка Front-end
-
+```
 cd &{PROJECT_APP}
 npm install
+```
 
-# Запуск проекта
+# Запуск Front-end
+```
 cd &{PROJECT_APP}
+npm start
+```
+# Запуск Back-end
+```
+npm start-api
+```
